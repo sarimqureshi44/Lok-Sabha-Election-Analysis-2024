@@ -2,190 +2,53 @@
 
 
 
-# Spark
+Project Overview
 
-# **Amazon USA Sales Analysis Project**
+The "Lok-Sabha-Election-Analysis-2024" project aims to analyze the parliamentary election results of India using SQL Server. It involves querying datasets related to constituency-wise, state-wise, and party-wise election outcomes to extract meaningful insights. The analysis includes examining seat distribution, party alliances, vote margins, and electoral trends across states. The project also classifies parties into alliances such as NDA, I.N.D.I.A., and OTHER to gain a clearer understanding of political dominance
 
----
-
-## **Project Overview**
-
-I have worked on analyzing a dataset of over 20,000 sales records from an Amazon-like e-commerce platform. This project involves extensive querying of customer behavior, product performance, and sales trends using SQL Server. Through this project, I have tackled various SQL problems, including revenue analysis, customer segmentation, and inventory management.
-
-The project also focuses on data cleaning, handling null values, and solving real-world business problems using structured queries.
-
+# ERD Diagram
 An ERD diagram is included to visually represent the database schema and relationships between tables.
 
 ---
 
 ![erd2](erd2.png)
 
-## **Database Setup & Design**
-
-### **Schema Structure**
-
-```sql
--- create database
-create database amazon;
-use amazon;
-
--- start creating  schema
-
--- category table
-create table category
-(
-category_id	int primary key,
-category_name varchar(20)
-);
-
-select * from category;
-
--- customers table
-create table customers
-(
-customer_id int primary key,	
-first_name	varchar(20),
-last_name	varchar(20),
-state varchar(20)
-);
-
-select * from customers;
-
-insert into customers 
-            select * from customers_backup;
+# **Database and Tables**
 
 
--- sellers table
-create table sellers
-(
-seller_id int primary key,
-seller_name	varchar(25),
-origin varchar(15)
-);
-
-select * from sellers;
-
-insert into sellers 
-            select * from sellers_backup;
-
--- products table
-create table products
-(
-product_id int primary key,	
-product_name varchar(50),	
-price	float,
-cogs	float,
-category_id int, -- fk 
-constraint product_fk_category foreign key(category_id) references category(category_id)
-);
-
-select * from products;
-
-insert into products 
-            select * from products_backup;
-
-
--- orders table
-create table orders
-(
-order_id int primary key, 	
-order_date	date,
-customer_id	int, -- fk
-seller_id int, -- fk 
-order_status varchar(15),
-constraint orders_fk_customers foreign key (customer_id) references customers(customer_id),
-constraint orders_fk_sellers foreign key (seller_id) references sellers(seller_id)
-);
-
-select * from orders;
-
-insert into orders 
-            select * from orders_backup;
-
--- order_items table
-create table order_items
-(
-order_item_id int primary key,
-order_id int,	-- fk 
-product_id int, -- fk
-quantity int,	
-price_per_unit float,
-constraint order_items_fk_orders foreign key (order_id) references orders(order_id),
-constraint order_items_fk_products foreign key (product_id) references products(product_id)
-);
-
-select * from order_items;
-
-insert into order_items 
-            select * from order_items_backup;
-
-
--- payment table
-create table payments
-(
-payment_id	
-int primary key,
-order_id int, -- fk 	
-payment_date date,
-payment_status varchar(20),
-constraint payments_fk_orders foreign key (order_id) references orders(order_id)
-);
-
-select * from payments;
-
-insert into payments 
-            select * from payments_backup;
-
---shippings table
-create table shippings
-(
-shipping_id	int primary key,
-order_id	int, -- fk
-shipping_date date,	
-return_date	 date ,
-shipping_providers	varchar(15),
-delivery_status varchar(15),
-constraint shippings_fk_orders foreign key (order_id) references orders(order_id)
-);
-
-select * from shippings where return_date is not null;
-
-insert into shippings 
-            select * from shipping_backup;
-
---inventory table
-create table inventory
-(
-inventory_id int primary key,
-product_id int, -- fk
-stock int,
-warehouse_id int,
-last_stock_date date,
-constraint inventory_fk_products foreign key (product_id) references products(product_id)
-);
-
-select * from inventory;
-
-insert into inventory 
-            select * from inventory_backup;
-
--- end of schemas
+## **Database**
+```
+create database indian_election;
 ```
 
----
+## **Tables**
+
+```
+select * from constituencywise_details;
+
+select * from constituencywise_results;
+
+select * from partywise_results;
+
+select * from statewise_results;
+
+select * from states;
+```
 
 
 
 ---
 
 ## **Objective**
+Total Seats Analysis:
+1.Determine the total number of parliamentary seats contested in the election.
 
-The primary objective of this project is to showcase SQL proficiency through complex queries that address real-world e-commerce business challenges. The analysis covers various aspects of e-commerce operations, including:
-- Customer behavior
-- Sales trends
-- Inventory management
-- Payment and shipping analysis
-- Forecasting and product performance
+State-wise Seat Distribution: Evaluate the number of seats available in each state.
+Party-wise Performance: Analyze how many seats each party and alliance (NDA, I.N.D.I.A., and OTHER) won.
+Winning Margins & Candidate Insights: Identify winning candidates, their parties, alliances, and margin of victory.
+Voting Trends: Examine the distribution of EVM votes and postal votes per constituency.
+Alliance Comparison: Determine which political alliance secured the most seats nationwide and in individual states.
+Top Candidate Performance: Identify candidates who received the highest number of votes in EVM ballots
   
 
 ## **Identifying Business Problems**

@@ -11,7 +11,9 @@ An ERD diagram is included to visually represent the database schema and relatio
 
 ---
 
-![erd2](erd2.png)
+![image](https://github.com/user-attachments/assets/06d365df-381f-435a-8c7c-eb90dd83afd2)
+
+
 
 # **Database and Tables**
 
